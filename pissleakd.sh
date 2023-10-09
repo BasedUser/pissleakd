@@ -136,7 +136,7 @@ interr() {
 trap interr SIGINT
 
 runner() {
-  ((sleep 0.5s; hello; cat /tmp/$$_0) & cat) | openssl s_client -connect [225:2bee:df65:4647:eade:ebfb:7472:c159]:6900 | while read line; do
+  ((sleep 0.5s; hello; cat /tmp/$$_0) & cat) | openssl s_client -connect [225:2bee:df65:4647:eade:ebfb:7472:c159]:6900 | while read -r line; do
     out=$(parser "$line")
     handled=$?
     prefix=""
