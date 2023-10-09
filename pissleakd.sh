@@ -61,7 +61,7 @@ nothingt() { # ignore command
 }
 
 pass() { # link-local PASS, throw it out as it's sensinfo
-    local pw=$(cat | cut -d " " -f 2 | cut -d $(echo -ne "\r") -f 1)
+    local pw=$(cat | cut -d " " -f 2)
     local tgtpw=":$(<pass.txt)"
     if [[ "$pw" != "$tgtpw" ]]; then
         secho "ERROR :Closing Link (Link denied (Authentication failed))"
@@ -87,7 +87,7 @@ version() {
     local stdin=$(cat)
     local src=$(echo -n $stdin | cut -d " " -f 1 | cut -d ":" -f 2)
     local dst=$(echo -n $stdin | cut -d " " -f 3)
-    if [[ $dst == $sname || $dst == $sid ]]; then
+    if [[ ($dst == $sname) || ($dst == $sid) ]]; then
       secho ":${sname} 351 $src pissleakd-1.0.0. ${sname} :[$(uname -a)]"
       secho ":${sname} 105 $src NOTHING :is supported by this server"
     fi
@@ -97,7 +97,7 @@ version() {
 #### The MEAT
 
 parser() {
-    line="$1"
+    line=$(echo $1 | cut -d $(echo -ne "\r") -f 1)
     #scase "EOS" 2 nothingt; if [[ $? != 0 ]]; then return 1; fi # TODO speedup synch parsing
     # level 1 (cmd) commands
     scase "PASS" 1 pass; if [[ $? != 0 ]]; then return 1; fi
