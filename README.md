@@ -33,3 +33,9 @@ sname="pissleakd.baseduser.eu.org"
 sid="9RD"
 ```
 to your new values (`sname` to your link block's name, `sid` to a proper UnrealIRCd SID).
+
+Finally, change the IP in the call to `openssl`:
+
+```
+    ((sleep 0.5s; hello; cat /tmp/$$_0) & cat) | openssl s_client -connect irc.example.com:6900 | while read -r line; do
+```
